@@ -33,8 +33,7 @@ def main():
     season=Prompt.ask("Season", choices=SEASONS, default="2024-25")
     url = f"https://studies.cs.helsinki.fi/nhlstats/{season}/players"
 
-    reader = PlayerReader(url)
-    stats = PlayerStats(reader)
+    stats = PlayerStats(PlayerReader(url))
     nationalities=stats.nationalities()
 
     while True:
