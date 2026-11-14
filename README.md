@@ -1,5 +1,8 @@
 # palautusrepositorio
 OhTu tehtävien palautuskansio 
+
+Viikko 1
 https://github.com/Grelod-bit/ohtuvarasto
 
-testi (poistan myöhemmin)
+Viikko 3
+https://github.com/Grelod-bit/webcounter
