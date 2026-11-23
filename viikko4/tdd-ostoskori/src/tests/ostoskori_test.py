@@ -135,7 +135,7 @@ class TestOstoskori(unittest.TestCase):
         self.assertEqual(ostokset[0].tuotteen_nimi(), "Maito")
         self.assertEqual(ostokset[0].lukumaara(), 1)
 
-    def test_tuotteen_lisaamisen_jälkeen_saman_tuotteen_poistamisen_jälkeen_kori_on_tyhjÄ(
+    def test_tuotteen_lisaamisen_jälkeen_saman_tuotteen_poistamisen_jälkeen_kori_on_tyhjä(
         self,
     ):
         maito = Tuote("Maito", 3)
@@ -145,3 +145,12 @@ class TestOstoskori(unittest.TestCase):
 
         self.assertEqual(len(self.kori.ostokset()), 0)
 
+    def test_metodi_tyhjenna_tyhjentää_korin(self):
+        maito = Tuote("Maito", 3)
+        peruna = Tuote("Peruna", 1)
+
+        self.kori.lisaa_tuote(maito)
+        self.kori.lisaa_tuote(peruna)
+        self.kori.tyhjenna()
+
+        self.assertEqual(self.kori.tavaroita_korissa(), 0)
