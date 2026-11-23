@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import Mock, ANY
+from unittest.mock import Mock, ANY, call
 from kauppa import Kauppa
 from viitegeneraattori import Viitegeneraattori
 from varasto import Varasto
@@ -118,3 +118,31 @@ class TestKauppa(unittest.TestCase):
         pankki_mock.tilisiirto.assert_called_with(
             "pekka", 42, "12345", "33333-44455", 5
         )
+
+    def test_aloita_asiointi_nollaa_edellisen_ostoksen(self):
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.tilimaksu("pekka", "12345")
+
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(2)
+        self.kauppa.tilimaksu("arto", "54321")
+
+        kutsut = self.pankki_mock.tilisiirto.call_args_list
+
+        self.assertEqual(len(kutsut), 2)
+        self.assertEqual(kutsut[0], call("pekka", 42, "12345", "33333-44455", 5))
+        self.assertEqual(kutsut[1], call("arto", 42, "54321", "33333-44455", 3))
+
+    def test_korista_poistettu_tuote_ei_nay_hinnassa(self):
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.lisaa_koriin(2)
+        self.kauppa.poista_korista(1)
+        self.kauppa.tilimaksu("pekka", "12345")
+
+        self.pankki_mock.tilisiirto.assert_called_with(
+            "pekka", 42, "12345", "33333-44455", 3
+        )
+
+        self.varasto_mock.palauta_varastoon.assert_called_with(Tuote(1, "maito", 5))
