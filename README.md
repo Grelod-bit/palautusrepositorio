@@ -6,3 +6,5 @@ https://github.com/Grelod-bit/ohtuvarasto
 
 Viikko 3
 https://github.com/Grelod-bit/webcounter
+
+Tee jotain muutoksia johonkin tiedostoon ja committaa
