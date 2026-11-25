@@ -32,7 +32,7 @@ class TennisGame:
     def get_advantage_score(self):
         difference = self.p1_score - self.p2_score
         absolute_diff = abs(difference)
-        player_ahead = "player1" if difference > 0 else "player2"
+        player_ahead = self.p1_name if difference > 0 else self.p2_name
 
         if absolute_diff == 1:
             score = "Advantage " + player_ahead
